@@ -7,6 +7,8 @@ import android.net.Uri;
 
 public class SyncContentProvider extends ContentProvider {
 
+    public static final String AUTHORITY = "rs.dcsw.syncadapterdemo.provider";
+
     @Override
     public boolean onCreate() {
         return false;

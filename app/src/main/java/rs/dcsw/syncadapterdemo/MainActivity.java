@@ -1,9 +1,14 @@
 package rs.dcsw.syncadapterdemo;
 
+import android.accounts.Account;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import rs.dcsw.syncadapterdemo.sync.AccountAuthenticator;
+import rs.dcsw.syncadapterdemo.sync.SyncContentProvider;
 
 
 public class MainActivity extends Activity {
@@ -12,6 +17,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        requestSyncAutomatically();
     }
 
 
@@ -32,5 +39,24 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requestSyncAutomatically() {
+        final Account account = new Account(AccountAuthenticator.ACCOUNT_NAME,
+                AccountAuthenticator.ACCOUNT_TYPE);
+        ContentResolver.setSyncAutomatically(account, SyncContentProvider.AUTHORITY, true);
+    }
+
+    private void onDemandSync() {
+        final Account account = new Account(AccountAuthenticator.ACCOUNT_NAME,
+                AccountAuthenticator.ACCOUNT_TYPE);
+        ContentResolver.requestSync(account, SyncContentProvider.AUTHORITY, null);
+    }
+
+    private void requestPeriodicSync() {
+        final Account account = new Account(AccountAuthenticator.ACCOUNT_NAME,
+                AccountAuthenticator.ACCOUNT_TYPE);
+        long interval = 60 * 60; // one hour
+        ContentResolver.addPeriodicSync(account, SyncContentProvider.AUTHORITY, null, interval);
     }
 }

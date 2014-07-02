@@ -6,6 +6,7 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.util.Log;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
@@ -21,5 +22,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,
             ContentProviderClient provider, SyncResult syncResult) {
         //Synchronize your data between client and server
+        Log.d("SyncAdapter", "SYNCING...");
     }
 }
